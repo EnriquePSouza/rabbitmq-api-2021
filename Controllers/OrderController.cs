@@ -1,7 +1,10 @@
 using System;
+using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RabbitMq.Api.Domain;
+using RabbitMQ.Client;
 
 namespace RabbitMq.Api.Controllers
 {
@@ -15,16 +18,30 @@ namespace RabbitMq.Api.Controllers
         {
             _logger = logger;
         }
-        
+
         public IActionResult InsertOrder(Order order)
         {
             try
             {
-                return Accepted(order);   
+                // TODO - Create a RabbitService with this code.
+                var factory = new ConnectionFactory() { HostName = "localhost" };
+                using (var connection = factory.CreateConnection())
+                using (var channel = connection.CreateModel())
+                {
+                    string message = JsonSerializer.Serialize(order);
+                    var body = Encoding.UTF8.GetBytes(message);
+
+                    channel.BasicPublish(exchange: "",
+                                         routingKey: "orderQueue",
+                                         basicProperties: null,
+                                         body: body);
+                }
+
+                return Accepted(order);
             }
             catch (Exception ex)
             {
-                
+
                 _logger.LogError("Erro ao tentar criar um novo pedido!", ex);
 
                 return new StatusCodeResult(500);
