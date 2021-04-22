@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sender.Api.Domain;
 using RabbitMQ.Client;
+using Sender.Api.Helpers;
 
 namespace Sender.Api.Controllers
 {
@@ -13,29 +14,19 @@ namespace Sender.Api.Controllers
     public class OrderController : ControllerBase
     {
         private ILogger<OrderController> _logger;
+        private IRabbitService _service;
 
-        public OrderController(ILogger<OrderController> logger)
+        public OrderController(ILogger<OrderController> logger, IRabbitService service)
         {
             _logger = logger;
+            _service = service;
         }
 
         public IActionResult InsertOrder(Order order)
         {
             try
             {
-                // TODO - Create a RabbitService with this code.
-                var factory = new ConnectionFactory() { HostName = "localhost" };
-                using (var connection = factory.CreateConnection())
-                using (var channel = connection.CreateModel())
-                {
-                    string message = JsonSerializer.Serialize(order);
-                    var body = Encoding.UTF8.GetBytes(message);
-
-                    channel.BasicPublish(exchange: "",
-                                         routingKey: "orderQueue",
-                                         basicProperties: null,
-                                         body: body);
-                }
+                _service.Publish(order, "orderExchange", "topic", "orderRoute", "orderQueue");
 
                 return Accepted(order);
             }
