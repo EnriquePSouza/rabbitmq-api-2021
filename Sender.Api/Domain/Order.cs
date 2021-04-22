@@ -1,4 +1,4 @@
-namespace RabbitMq.Api.Domain
+namespace Sender.Api.Domain
 {
     public class Order
     {

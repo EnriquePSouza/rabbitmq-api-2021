@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 
-namespace RabbitMq.Api
+namespace Sender.Api
 {
     public class Program
     {

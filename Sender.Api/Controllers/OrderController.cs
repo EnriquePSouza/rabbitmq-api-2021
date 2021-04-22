@@ -3,10 +3,10 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RabbitMq.Api.Domain;
+using Sender.Api.Domain;
 using RabbitMQ.Client;
 
-namespace RabbitMq.Api.Controllers
+namespace Sender.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
