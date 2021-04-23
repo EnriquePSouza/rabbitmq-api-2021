@@ -1,10 +1,6 @@
 using System;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using Receiver.Api.Domain;
 using Receiver.Api.Helpers;
 
 namespace Receiver.Api.Controllers
