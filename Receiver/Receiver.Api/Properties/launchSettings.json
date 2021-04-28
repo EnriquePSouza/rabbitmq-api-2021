@@ -4,8 +4,8 @@
     "Studies.Api": {
       "commandName": "Project",
       "launchBrowser": false,
-      "launchUrl": "/api/worker",
-      "applicationUrl": "http://localhost:5000",
+      "launchUrl": "/api/receiver",
+      "applicationUrl": "http://localhost:5001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
